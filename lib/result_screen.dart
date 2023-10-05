@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:scanner/qr_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qr_scanner/qr_scanner.dart';
 
 class ResultScanner extends StatelessWidget {
   final String code;
@@ -30,9 +31,11 @@ class ResultScanner extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
+      body: Container(
+        alignment: Alignment.center,
         padding: const EdgeInsets.all(12.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             QrImageView(
               data: 'code',
@@ -52,7 +55,7 @@ class ResultScanner extends StatelessWidget {
               height: 10,
             ),
             Text(
-              "$code",
+              code,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.black87,
@@ -69,7 +72,9 @@ class ResultScanner extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepOrangeAccent,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: code));
+                },
                 child: const Text(
                   "COPY",
                   style: TextStyle(

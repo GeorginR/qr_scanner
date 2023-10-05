@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_scanner/qr_scanner.dart';
+import 'package:scanner/qr_scanner.dart';
 
 void main() {
   runApp(const MyApp());

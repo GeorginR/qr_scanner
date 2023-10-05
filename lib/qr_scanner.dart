@@ -1,7 +1,9 @@
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:scanner/result_screen.dart';
+import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
 
-const bgColor = Color.fromARGB(204, 247, 247, 247);
+const bgColor = Color.fromARGB(255, 247, 247, 247);
 
 class QRScanner extends StatefulWidget {
   const QRScanner({super.key});
@@ -54,18 +56,37 @@ class _QRScannerState extends State<QRScanner> {
               ),
             ),
             Expanded(
-              flex: 4,
-              child: MobileScanner(
-                allowDuplicates: true,
-                onDetect: (barcode, args) {},
-              ),
-            ),
+                flex: 4,
+                child: Stack(
+                  children: [
+                    MobileScanner(
+                      allowDuplicates: true,
+                      onDetect: (barcode, args) {
+                        if (!isScanCompleted) {
+                          String code = barcode.rawValue ?? '---';
+                          isScanCompleted = true;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ResultScanner(
+                                        closeScreen: closeScreen,
+                                        code: code,
+                                      )));
+                        }
+                      },
+                    ),
+                    QRScannerOverlay(
+                      overlayColor: bgColor,
+                      borderColor: Colors.amberAccent,
+                    )
+                  ],
+                )),
             Expanded(
                 child: Container(
               alignment: Alignment.center,
-              color: Colors.cyan,
+              color: bgColor,
               child: Text(
-                "Khatam karle phir sochiyo",
+                "Developed by Royal Roys",
                 style: TextStyle(
                   color: Colors.black87,
                   fontSize: 14,
